@@ -87,11 +87,16 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config) {
       pixel_writer->Write(x, y, {255, 255, 255});
     }
   }
-  for (int x = 0; x < 200; ++x) {
-    for (int y = 0; y < 100; ++y) {
-      pixel_writer->Write(x, y, {0, 255, 0});
+  uint8_t time = 0;
+  while(1){
+    for (int x = 0; x < 200; ++x) {
+      for (int y = 0; y < 100; ++y) {
+        pixel_writer->Write(x, y, {0, time, (uint8_t)(255-time)});
+      }
     }
+    time++;
   }
+  
   while (1) __asm__("hlt");
 }
 // #@@range_end(call_pixel_writer)
