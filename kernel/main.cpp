@@ -143,6 +143,8 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config,
 
   // #@@range_begin(print_memory_map)
   printk("memory_map: %p\n", &memory_map);
+  uint64_t max_page = 0;
+  uintptr_t max_pointer = 0;
   for (uintptr_t iter = reinterpret_cast<uintptr_t>(memory_map.buffer);
        iter < reinterpret_cast<uintptr_t>(memory_map.buffer) + memory_map.map_size;
        iter += memory_map.descriptor_size) {
@@ -155,9 +157,18 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config,
             desc->physical_start + desc->number_of_pages * 4096 - 1,
             desc->number_of_pages,
             desc->attribute);
+        if (max_page<desc->number_of_pages){
+          max_pointer = desc->physical_start;
+          max_page = desc->number_of_pages;
+        }
       }
     }
   }
+  printk("max phys = %08lx, pages = %lu\n", max_pointer, max_page);
+  uint64_t* max_int_pointer = reinterpret_cast<uint64_t*>(max_pointer);
+  max_int_pointer[0] = 1234;
+  uint64_t read_int = max_int_pointer[0];
+  printk("read: %lu\n", read_int);
   // #@@range_end(print_memory_map)
 
   mouse_cursor = new(mouse_cursor_buf) MouseCursor{
