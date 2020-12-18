@@ -72,7 +72,7 @@ void SetIDTEntry(InterruptDescriptor& desc,
 class InterruptVector {
  public:
   enum Number {
-    kXHCI = 0x40,
+    kXHCI = 0x50,
   };
 };
 // #@@range_end(vector_numbers)
