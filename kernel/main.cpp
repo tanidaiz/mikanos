@@ -224,7 +224,8 @@ extern "C" void KernelMain(const FrameBufferConfig& frame_buffer_config) {
     // #@@range_begin(get_front_message)
     __asm__("cli");
     if (main_queue.Count() == 0) {
-      __asm__("sti\n\thlt");
+      //__asm__("sti\n\thlt");
+      //It doesn't recognize the mouse input.
       continue;
     }
 
