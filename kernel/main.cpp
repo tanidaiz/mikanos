@@ -184,6 +184,20 @@ extern "C" void KernelMainNewStack(
   memory_manager->SetMemoryRange(FrameID{1}, FrameID{available_end / kBytesPerFrame});
   // #@@range_end(mark_allocated)
 
+  WithError<FrameID> mem1 = memory_manager->Allocate(10);
+  WithError<FrameID> mem2 = memory_manager->Allocate(20);
+  printk("get mem1 %08lx\n", mem1.value.Frame());
+  printk("get mem2 %08lx\n", mem2.value.Frame());
+  memory_manager->Free(mem2.value, 20);
+  printk("free mem2\n");
+  WithError<FrameID> mem3 = memory_manager->Allocate(30); // same address as mem2
+  printk("get mem3 %08lx\n", mem3.value.Frame());
+  memory_manager->Free(mem1.value, 10);
+  printk("free mem1\n");
+  memory_manager->Free(mem3.value, 30);
+  printk("free mem3\n");
+
+
   mouse_cursor = new(mouse_cursor_buf) MouseCursor{
     pixel_writer, kDesktopBGColor, {300, 200}
   };
