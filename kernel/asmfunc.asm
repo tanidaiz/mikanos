@@ -80,6 +80,7 @@ SetDSAll:
 ; #@@range_begin(set_cr3)
 global SetCR3  ; void SetCR3(uint64_t value);
 SetCR3:
+    mov rax, cr3 ; get old value
     mov cr3, rdi
     ret
 ; #@@range_end(set_cr3)

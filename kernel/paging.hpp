@@ -7,6 +7,7 @@
 #pragma once
 
 #include <cstddef>
+#include <stdint.h>
 
 /** @brief 静的に確保するページディレクトリの個数
  *
@@ -19,4 +20,4 @@ const size_t kPageDirectoryCount = 64;
 /** @brief 仮想アドレス=物理アドレスとなるようにページテーブルを設定する．
  * 最終的に CR3 レジスタが正しく設定されたページテーブルを指すようになる．
  */
-void SetupIdentityPageTable();
+uint64_t* SetupIdentityPageTable();

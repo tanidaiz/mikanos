@@ -151,7 +151,8 @@ extern "C" void KernelMainNewStack(
   SetDSAll(0);
   SetCSSS(kernel_cs, kernel_ss);
 
-  SetupIdentityPageTable();
+  uint64_t* old_address = SetupIdentityPageTable();
+  printk("old address: %08lx\n", old_address);
   // #@@range_end(setup_segments_and_page)
 
   const auto memory_map_base = reinterpret_cast<uintptr_t>(memory_map.buffer);
@@ -160,12 +161,12 @@ extern "C" void KernelMainNewStack(
        iter += memory_map.descriptor_size) {
     auto desc = reinterpret_cast<MemoryDescriptor*>(iter);
     if (IsAvailable(static_cast<MemoryType>(desc->type))) {
-      printk("type = %u, phys = %08lx - %08lx, pages = %lu, attr = %08lx\n",
+      /*printk("type = %u, phys = %08lx - %08lx, pages = %lu, attr = %08lx\n",
           desc->type,
           desc->physical_start,
           desc->physical_start + desc->number_of_pages * 4096 - 1,
           desc->number_of_pages,
-          desc->attribute);
+          desc->attribute);*/
     }
   }
 
