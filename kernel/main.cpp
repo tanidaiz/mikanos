@@ -194,6 +194,9 @@ extern "C" void KernelMainNewStack(
     .ID();
   task_manager->NewTask().InitContext(TaskIdle, 0xdeadbeef).Wakeup();
   task_manager->NewTask().InitContext(TaskIdle, 0xcafebabe).Wakeup();
+  for(int i=0;i<100;i++){
+    task_manager->NewTask().InitContext(TaskIdle, (int64_t)i).Sleep();
+  }
 
   // #@@range_begin(sti_last)
   usb::xhci::Initialize();
