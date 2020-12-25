@@ -134,6 +134,12 @@ void InitializeTaskBWindow() {
 // #@@range_begin(taskb)
 void TaskB(int task_id, int data) {
   printk("TaskB: task_id=%d, data=%d\n", task_id, data);
+
+  for(int i=0;i<5;i++){
+    printk("Yield!");
+    Yield();
+  }
+
   char str[128];
   int count = 0;
   while (true) {

@@ -21,3 +21,4 @@ extern TaskContext task_b_ctx, task_a_ctx;
 
 void SwitchTask();
 void InitializeTask();
+void Yield();

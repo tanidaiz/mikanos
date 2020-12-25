@@ -21,6 +21,10 @@ void SwitchTask() {
 }
 // #@@range_end(switchtask)
 
+void Yield() {
+  SwitchTask();
+}
+
 // #@@range_begin(inittask)
 void InitializeTask() {
   current_task = &task_a_ctx;
