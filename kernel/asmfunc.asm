@@ -152,8 +152,8 @@ SwitchContext:  ; void SwitchContext(void* next_ctx, void* current_ctx);
     mov rax, [rdi + 0x38]
     mov gs, ax
 
-    mov rax, [rdi + 0x40]
-    mov rbx, [rdi + 0x48]
+    mov rax, [rdi + 0x48]
+    mov rbx, [rdi + 0x40]
     mov rcx, [rdi + 0x50]
     mov rdx, [rdi + 0x58]
     mov rsi, [rdi + 0x68]
