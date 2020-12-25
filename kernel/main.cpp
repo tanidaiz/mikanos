@@ -195,7 +195,7 @@ extern "C" void KernelMainNewStack(
   task_manager->NewTask().InitContext(TaskIdle, 0xdeadbeef).Wakeup();
   task_manager->NewTask().InitContext(TaskIdle, 0xcafebabe).Wakeup();
   for(int i=0;i<100;i++){
-    task_manager->NewTask().InitContext(TaskIdle, (int64_t)i).Sleep();
+    task_manager->NewTask().InitContext(TaskIdle, (int64_t)i).Wakeup();
   }
 
   // #@@range_begin(sti_last)
