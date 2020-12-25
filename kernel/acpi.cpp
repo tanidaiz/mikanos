@@ -48,12 +48,41 @@ bool RSDP::IsValid() const {
 }
 // #@@range_end(isvalid_rsdp)
 
+bool DescriptionHeader :: IsValid ( const char * expected_signature ) const {
+  if ( strncmp (this -> signature , expected_signature , 4) != 0) {
+    Log (kDebug , " invalid ␣ signature :␣%.4 s\n", this -> signature );
+    return false ;
+  }
+  if ( auto sum = SumBytes (this , this -> length ); sum != 0) {
+    Log (kDebug , "sum ␣of␣%u␣ bytes ␣ must ␣be␣0:␣%d\n", this -> length , sum );
+    return false ;
+  }
+  return true ;
+}
+
+const DescriptionHeader & XSDT :: operator []( size_t i) const {
+auto entries = reinterpret_cast < const uint64_t * >(& this -> header + 1);
+  return * reinterpret_cast < const DescriptionHeader *>( entries [i]);
+}
+size_t XSDT :: Count () const {
+  return (this -> header . length - sizeof ( DescriptionHeader )) / sizeof ( uint64_t );
+}
+
 // #@@range_begin(initialize_acpi)
 void Initialize(const RSDP& rsdp) {
   if (!rsdp.IsValid()) {
     Log(kError, "RSDP is not valid\n");
     exit(1);
   }
+  XSDT* xsdt = reinterpret_cast<XSDT*>(rsdp.xsdt_address);
+  FADT* fadt = nullptr;
+  for(int i=0;i<xsdt->Count();i++){
+    auto& entry = xsdt[i];
+    if(entry.IsValid("FACP")){
+      fadt = reinterpret_cast<FADT*>(&entry);
+    }
+  }
+
 }
 // #@@range_end(initialize_acpi)
 
