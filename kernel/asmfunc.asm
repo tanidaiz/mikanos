@@ -97,8 +97,8 @@ KernelMain:
 ; #@@range_begin(switch_context)
 global SwitchContext
 SwitchContext:  ; void SwitchContext(void* next_ctx, void* current_ctx);
-    mov [rsi + 0x40], rax
-    mov [rsi + 0x48], rbx
+    mov [rsi + 0x48], rax
+    mov [rsi + 0x40], rbx
     mov [rsi + 0x50], rcx
     mov [rsi + 0x58], rdx
     mov [rsi + 0x60], rdi
